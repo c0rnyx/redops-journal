@@ -1,0 +1,81 @@
+site_name: RedOps Journal
+site_description: Offensive security labs, CTF writeups, and exploitation notes
+site_url: https://c0rnyx.github.io/redops-journal/
+
+plugins:
+  - search
+  - awesome-pages
+  - glightbox
+
+theme:
+  name: material
+
+  palette:
+    - scheme: slate
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  favicon: assets/favicon.png
+  logo: assets/logo.svg
+
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tabs
+    - search.highlight
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/c0rnyx
+    - icon: fontawesome/solid/shield
+      link: https://tryhackme.com/p/sam11
+
+
+nav:
+  - Home: index.md
+
+  - Mock Pentest Reports:
+      - Index: thm/mock-pentests/index.md
+      - Lazy Admin: thm/mock-pentests/lazy-admin/index.md
+      - Eternal Blue: thm/mock-pentests/eternal-blue/index.md
+      - Kenobi: thm/mock-pentests/kenobi/index.md
+      - ToolsRus: thm/mock-pentests/tools-rus/index.md
+      - Smol: thm/mock-pentests/smol/index.md
+      - Anonymous: thm/mock-pentests/anonymous/index.md
+      - Vulnversity: thm/mock-pentests/vulnversity/index.md
+      - Bounty Hacker: thm/mock-pentests/bounty-hacker/index.md
+      - Agent Sudo: thm/mock-pentests/agent-sudo/index.md
+      - Smag Grotto: thm/mock-pentests/smag-grotto/index.md
+      - Mr. Robot: thm/mock-pentests/mr-robot/index.md
+      - Root Me: thm/mock-pentests/root-me/index.md
+
+  - Room Walkthroughs:
+      - Index: thm/room-walkthroughs/index.md
+      - Take over: thm/room-walkthroughs/take-over/index.md
+      - Net Sec Challenge: thm/room-walkthroughs/netsec-challenge/index.md
+      - Easy Peasy: thm/room-walkthroughs/easy-peasy/index.md
+
+  - Linux Practice:
+      - Index: linux/index.md
+
+  - About Me: aboutme.md
