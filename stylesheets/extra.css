@@ -1,0 +1,334 @@
+/* =========================================================
+   CYBER HYBRID THEME 
+   ========================================================= */
+
+/* -------------------------
+   Fonts
+-------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+/* -------------------------
+   Material core colors
+-------------------------- */
+
+:root {
+    --md-primary-fg-color: #046d43;
+    --md-primary-fg-color--light: #00ff99;
+    --md-primary-fg-color--dark: #004428;
+
+    --md-accent-fg-color: #4fd1ff;
+}
+
+/* -------------------------
+   Background system
+-------------------------- */
+
+.md-container,
+.md-main,
+.md-content,
+.md-sidebar,
+.md-grid {
+    background-color: #0b0f14 !important;
+}
+
+/* -------------------------
+   HEADER 
+-------------------------- */
+
+.md-header {
+    background-color: #0f141b !important;
+    border-bottom: 2px solid #003b2a;
+}
+
+/* -------------------------
+   TOP NAV TABS
+-------------------------- */
+
+.md-tabs {
+    background: #0f141b !important;
+    border-bottom: 2px solid #003b2a;
+}
+
+/* active tab underline */
+.md-tabs__item--active .md-tabs__link {
+    border-bottom: 3px solid #00ff99 !important;
+    color: #00ff99;
+    text-shadow: 0 0 6px rgba(0, 255, 153, 0.25);
+}
+
+/* hover state (cyan -> green feel) */
+.md-tabs__link:hover {
+    border-bottom: 2px solid #4fd1ff;
+    color: #4fd1ff;
+}
+
+/* -------------------------
+   SIDEBAR NAVIGATION
+-------------------------- */
+
+.md-nav {
+    background: #0b0f14;
+}
+
+/* normal items */
+.md-nav__link {
+    color: #c0c3c7 !important;
+}
+
+/* hover (no purple anymore) */
+.md-nav__link:hover {
+    color: #4fd1ff !important;
+}
+
+/* active page */
+.md-nav__link--active {
+    color: #00ff99 !important;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(0, 255, 153, 0.2);
+}
+
+/* -------------------------
+   TEXT
+-------------------------- */
+
+h1, h2, h3, h4 {
+    color: #e6edf3;
+}
+
+p, li {
+    color: #c0c3c7;
+}
+
+/* -------------------------
+   LINKS
+-------------------------- */
+
+a {
+    color: #4fd1ff;
+    transition: 0.2s ease;
+}
+
+a:hover {
+    color: #00ff99;
+}
+
+/* -------------------------
+   CODE BLOCKS
+-------------------------- */
+
+code {
+    color: #00ff99;
+    background: rgba(0, 255, 153, 0.08);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.highlight {
+    border: 1px solid #00ff99;
+    border-radius: 8px;
+    background: #0a0f14;
+}
+
+/* -------------------------
+   SCROLLBAR 
+-------------------------- */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0b0f14;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #00ff99 !important;
+    border-radius: 10px;
+    border: 2px solid #0b0f14;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #4fd1ff !important;
+}
+
+/* Firefox */
+* {
+    scrollbar-color: #00ff99 #0b0f14;
+    scrollbar-width: thin;
+}
+
+/* -------------------------
+   SELECTION
+-------------------------- */
+
+::selection {
+    background: #00ff99;
+    color: black;
+}
+
+/* ===========================================
+   DASHBOARD HOMEPAGE
+   =========================================== */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:1.4rem;
+    margin-top:2rem;
+}
+
+.dashboard-card{
+    display:block;
+    padding:1.6rem;
+    background:#11161d;
+    border:1px solid #1b2d23;
+    border-radius:12px;
+
+    color:#d6dde6;
+    text-decoration:none;
+
+    transition:.25s;
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#00ff99;
+
+    box-shadow:0 0 20px rgba(0,255,153,.15);
+
+    text-decoration:none;
+}
+
+.dashboard-card h2{
+
+    margin-top:0;
+
+    color:#00ff99;
+}
+
+.dashboard-card span{
+
+    display:block;
+
+    margin-top:1rem;
+
+    color:#4fd1ff;
+
+    font-weight:600;
+}
+
+.dashboard-card:hover span{
+
+    color:#00ff99;
+}
+
+
+.terminal-header {
+    font-family: "JetBrains Mono", monospace;
+    background: #0b0f14;
+    border: 1px solid #00ff99;
+    padding: 16px;
+    margin-bottom: 20px;
+    color: #00ff99;
+    box-shadow: 0 0 15px rgba(0, 255, 153, 0.15);
+    border-radius: 6px;
+}
+
+.terminal-header div {
+    line-height: 1.4em;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+@media (max-width: 800px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-card,
+.dashboard-card:link,
+.dashboard-card:visited {
+    border: 1px solid #00ff99;
+    padding: 16px;
+    display: block;
+    text-decoration: none !important;
+    background: #0f141b;
+    border-radius: 8px;
+    transition: 0.2s ease-in-out;
+
+    color: #cdd6df !important;
+}
+
+/* force ALL inner text to ignore theme colors */
+.dashboard-card * {
+    color: inherit !important;
+}
+
+/* headings inside cards */
+.dashboard-card h2 {
+    color: #ffffff !important;
+}
+
+/* description text */
+.dashboard-card p {
+    color: #9aa4ad !important;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(0, 255, 153, 0.25);
+    border-color: #4fd1ff;
+}
+
+.terminal-header div:last-child::after {
+    content: "█";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* remove purple glow/focus from Material */
+:focus,
+:focus-visible {
+    outline-color: #4fd1ff !important;
+}
+
+/* nav active state */
+.md-tabs__item--active .md-tabs__link,
+.md-nav__link--active {
+    color: #4fd1ff !important;
+}
+
+/* hover states */
+.md-tabs__link:hover,
+.md-nav__link:hover {
+    color: #00ff99 !important;
+}
+
+.latest-card a {
+    display: block;
+    padding: 12px;
+    border-left: 3px solid #4fd1ff;
+    background: #0f141b;
+    text-decoration: none;
+    color: #cdd6df !important;
+}
+
+.latest-card a:hover {
+    border-left-color: #00ff99;
+}
