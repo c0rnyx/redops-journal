@@ -1,6 +1,6 @@
 site_name: RedOps Journal
-site_description: Offensive security labs, CTF writeups, and exploitation notes
 site_url: https://c0rnyx.github.io/redops-journal/
+site_description: THM, eCPPT, Offensive Security Portfolio
 
 plugins:
   - search
