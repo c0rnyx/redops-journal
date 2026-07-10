@@ -77,5 +77,8 @@ nav:
 
   - Linux Practice:
       - Index: linux/index.md
+      - Bandit - levels 1 to 10: linux/levels 1-10.md
+      - Bandit - levels 11 to 20: linux/levels 11-20.md
+      - Bandit - levels 21 to 30: linux/levels 21-30.md
 
   - About Me: aboutme.md
