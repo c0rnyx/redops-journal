@@ -1,0 +1,2999 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="THM, eCPPT, Offensive Security Portfolio">
+      
+      
+      
+        <link rel="canonical" href="https://c0rnyx.github.io/redops-journal/thm/room-walkthroughs/penetration-testing-frameworks/">
+      
+      
+        <link rel="prev" href="../network-services-2/">
+      
+      
+        <link rel="next" href="../post-exploitation-basics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Penetration Testing Frameworks - RedOps Journal</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#penetration-testing-frameworks-tryhackme-room-walkthrough" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="RedOps Journal" class="md-header__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RedOps Journal
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Penetration Testing Frameworks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mock-pentests/" class="md-tabs__link">
+          
+  
+  
+  Mock Pentest Reports
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Room Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../linux/" class="md-tabs__link">
+          
+  
+  
+  Linux Practice
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../aboutme/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="RedOps Journal" class="md-nav__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    RedOps Journal
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mock Pentest Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mock Pentest Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/agent-sudo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Sudo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/anonymous/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anonymous
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/bounty-hacker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bounty Hacker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/eternal-blue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eternal Blue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/kenobi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kenobi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/root-me/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Root Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smag-grotto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smag Grotto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/tools-rus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolsRus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/vulnversity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vulnversity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Room Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Room Walkthroughs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../breaching-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Breaching AD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../easy-peasy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Easy Peasy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-fundamentals-part-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Fundamentals Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-privilege-escalation-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netsec-challenge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net Sec Challenge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing Frameworks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-osstmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: OSSTMM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2: OSSTMM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-owasp-wstg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: OWASP WSTG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3: OWASP WSTG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-nist-sp-800-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: NIST SP 800-115
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4: NIST SP 800-115">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-ptes-penetration-testing-execution-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: PTES (Penetration Testing Execution Standard)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5: PTES (Penetration Testing Execution Standard)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-6-issaf-information-systems-security-assessment-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 6: ISSAF (Information Systems Security Assessment Framework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-mitre-attck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 7 - MITRE ATT&amp;CK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 7 - MITRE ATT&amp;CK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-attck-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ATT&amp;CK Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-other-notable-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 8 - Other Notable Frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 8 - Other Notable Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frameworks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-choosing-the-right-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 9 - Choosing the Right Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 9 - Choosing the Right Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engagement-scope-and-target-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engagement scope and target type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regulatory-and-compliance-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regulatory and compliance requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#need-for-measurable-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Need for measurable results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#team-expertise-and-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Team expertise and resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 10 - Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-exploitation-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post Exploitation Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../take-over/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Take over
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Practice
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux Practice
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%201-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 1 to 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2011-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 11 to 20
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2021-33/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 21 to 33
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aboutme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-osstmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: OSSTMM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2: OSSTMM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-owasp-wstg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: OWASP WSTG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3: OWASP WSTG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-nist-sp-800-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: NIST SP 800-115
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4: NIST SP 800-115">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-ptes-penetration-testing-execution-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: PTES (Penetration Testing Execution Standard)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5: PTES (Penetration Testing Execution Standard)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-6-issaf-information-systems-security-assessment-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 6: ISSAF (Information Systems Security Assessment Framework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phases-a-walkthrough_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases: A Walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-mitre-attck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 7 - MITRE ATT&amp;CK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 7 - MITRE ATT&amp;CK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-attck-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ATT&amp;CK Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-other-notable-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 8 - Other Notable Frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 8 - Other Notable Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frameworks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-choosing-the-right-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 9 - Choosing the Right Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 9 - Choosing the Right Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engagement-scope-and-target-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engagement scope and target type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regulatory-and-compliance-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regulatory and compliance requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#need-for-measurable-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Need for measurable results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#team-expertise-and-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Team expertise and resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 10 - Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<hr>
+<h1 id="penetration-testing-frameworks-tryhackme-room-walkthrough"><strong>Penetration Testing Frameworks TryHackMe Room Walkthrough</strong></h1>
+<hr>
+<h3 id="introduction"><strong>Introduction</strong></h3>
+<p>A penetration testing framework is a structured methodology that guides security professionals through every stage of an engagement, from initial planning and scoping to exploitation, reporting, and remediation validation. Consider the analogy of a building inspector following a code-compliance checklist: the inspector does not wander through the building, hoping to notice problems. Instead, they follow a systematic process that ensures every structural element, electrical system, and fire safety measure is evaluated against a known standard. Penetration testing frameworks serve the same purpose for security assessments.</p>
+<p>Relying on a structured methodology provides several benefits. It ensures&nbsp;<strong>thoroughness</strong>&nbsp;so that critical areas are not overlooked. It promotes&nbsp;<strong>consistency</strong>&nbsp;so that different testers on the same team produce comparable results. It supports&nbsp;<strong>compliance</strong>&nbsp;by aligning the assessment with regulatory requirements. It also improves&nbsp;<strong>communication</strong>&nbsp;because clients, auditors, and stakeholders can understand and trust a process grounded in a recognized standard.</p>
+<h3 id="task-2-osstmm"><strong>Task 2: OSSTMM</strong></h3>
+<h4 id="overview"><strong>Overview</strong></h4>
+<p>The phrase <em>“you can’t manage what you can’t measure”</em> reflects the core idea behind OSSTMM. In penetration testing, results are often subjective, but OSSTMM introduces a structured, metric-driven approach to make findings quantifiable and repeatable.</p>
+<p>Developed by ISECOM, OSSTMM (v3) applies scientific principles to security testing, prioritizing measurable data over opinion. Instead of subjective risk ratings, it produces consistent, verifiable results.</p>
+<p>It defines five security channels:</p>
+<ul>
+<li><strong>HUMSEC:</strong> Human/social engineering risks</li>
+<li><strong>PHYSSEC:</strong> Physical access controls</li>
+<li><strong>SPECSEC:</strong> Wireless communications (Wi-Fi, Bluetooth, RFID)</li>
+<li><strong>COMSEC:</strong> Telecommunications systems</li>
+<li><strong>DATASEC:</strong> Network and application-layer services</li>
+</ul>
+<p>Security is evaluated across all channels, since weaknesses in one area (e.g., physical access or social engineering) can bypass strong network defenses.</p>
+<p>A key output is the <strong>Risk Assessment Value (RAV)</strong>, which measures the relationship between attack surface exposure and security controls. Higher values indicate greater risk, while values near zero suggest balanced controls and exposure.</p>
+<hr>
+<h4 id="phases-a-walkthrough"><strong>Phases: A Walkthrough</strong></h4>
+<p>Using a sample assessment of <em>FinVault Corp</em> (<code>10.0.113.0/24</code>, <code>portal.finvault-corp.thm</code>):</p>
+<hr>
+<p><strong>Phase 1: Induction</strong></p>
+<p>Identify and verify assets.</p>
+<p>DNS and certificate analysis reveal subdomains like <code>vpn.finvault-corp.thm</code> and <code>mail.finvault-corp.thm</code>, which are confirmed as live systems.</p>
+<hr>
+<p><strong>Phase 2: Interaction</strong></p>
+<p>Engage and measure exposed services.</p>
+<p>Services are fingerprinted, revealing 12 exposed services across 8 hosts, with 4 allowing unauthenticated access.</p>
+<hr>
+<p><strong>Phase 3: Inquiry</strong></p>
+<p>Test exploitability and privilege escalation.</p>
+<p>An IDOR vulnerability is found in the portal, allowing access to other users’ data (~12,000 accounts).</p>
+<hr>
+<p><strong>Phase 4: Intervention</strong></p>
+<p>Contain, review, and test detection.</p>
+<p>The issue is patched, related controls are reviewed, and a canary token is deployed to test detection.</p>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>OSSTMM uses the STAR reporting format for consistent audit output. Its strength is producing repeatable, measurable results, but it is complex and time-intensive compared to frameworks like OWASP or NIST.</p>
+<h4 id="questions"><strong>Questions</strong></h4>
+<p><strong>What OSSTMM metric quantifies the balance between an organization's attack surface and its controls?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Risk Assessment Values
+</code></pre></div>
+<p><strong>After completing Induction and Interaction, what phase comes next and what is its objective?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Inquiry
+</code></pre></div>
+<h3 id="task-3-owasp-wstg"><strong>Task 3: OWASP WSTG</strong></h3>
+<h4 id="overview_1"><strong>Overview</strong></h4>
+<p>When testing a web application such as an online retail platform, there are many potential attack surfaces: authentication, search, shopping carts, payments, and order tracking. Without a structured approach, testers risk duplicating effort or missing entire vulnerability classes.</p>
+<p>The OWASP Web Security Testing Guide (WSTG) addresses this by providing a comprehensive, community-driven framework for web application security testing. Unlike the OWASP Top Ten, which summarizes key risks, the WSTG offers detailed, actionable guidance across more than 90 test cases organized into twelve categories.</p>
+<p>These categories cover the full web application attack surface:</p>
+<ul>
+<li>Information gathering</li>
+<li>Configuration and deployment management</li>
+<li>Identity and authentication</li>
+<li>Authorization and session management</li>
+<li>Input validation</li>
+<li>Error handling</li>
+<li>Cryptography</li>
+<li>Business logic</li>
+<li>Client-side testing</li>
+<li>API testing</li>
+</ul>
+<p>Each test case is assigned an identifier (e.g., <code>WSTG-INPV-01</code>) and includes structured steps for testing specific vulnerabilities.</p>
+<p>The WSTG follows a risk-based approach, prioritizing vulnerabilities based on impact and exploitability rather than simply listing them.</p>
+<hr>
+<p><strong>Phases: Security Across the SDLC</strong></p>
+<p>The WSTG integrates security testing throughout the Software Development Life Cycle (SDLC), rather than treating it as a single phase. Example: <em>ShopSecure Inc.</em>, building a customer portal.</p>
+<hr>
+<p><strong>Phase 1: Planning (Before development)</strong></p>
+<p>Security requirements are defined early, including compliance needs such as PCI DSS and measurable security objectives (e.g., vulnerability patch timelines).</p>
+<hr>
+<p><strong>Phase 2: Design</strong></p>
+<p>System architecture is reviewed before coding begins. Threat modeling identifies high-risk components like payment APIs, leading to early security controls such as input validation and rate limiting.</p>
+<hr>
+<p><strong>Phase 3: Development</strong></p>
+<p>Code is reviewed against WSTG test cases. For example, authentication logic is analyzed, revealing issues such as non-expiring password reset tokens.</p>
+<hr>
+<p><strong>Phase 4: Deployment</strong></p>
+<p>Security controls are validated in staging or production-like environments. This includes checking TLS configuration, default credentials, and exposed debug endpoints.</p>
+<hr>
+<p><strong>Phase 5: Maintenance</strong></p>
+<p>Security testing continues after release. When new features are added, relevant WSTG test cases are re-executed to ensure no regressions are introduced.</p>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>The WSTG provides detailed, structured coverage of web application security testing through over 90 test cases. Its strength lies in its completeness and practical guidance, supported by continuous updates from the security community.</p>
+<p>However, full execution can be time-consuming and resource-intensive. Some areas also require specialized expertise, and excessive reliance on the checklist can reduce critical analysis. Effective use of WSTG combines structured testing with professional judgment.</p>
+<hr>
+<h4 id="questions_1"><strong>Questions:</strong></h4>
+<p><strong>The WSTG organizes its test cases using a specific identifier format. What identifier would you look for to find test cases related to input validation?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>WSTG-INPV
+</code></pre></div>
+<p><strong>A development team has just finished coding a new feature and wants to check it against WSTG before deployment. Which SDLC-aligned phase number are they in?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>3
+</code></pre></div>
+<h3 id="task-4-nist-sp-800-115"><strong>Task 4: NIST SP 800-115</strong></h3>
+<p><strong>Overview</strong></p>
+<p>NIST Special Publication 800-115 (<em>Technical Guide to Information Security Testing and Assessment</em>) provides a structured framework for evaluating the security of information systems. Originally developed for U.S. federal agencies, it is widely used across both public and private sectors.</p>
+<p>Unlike a dedicated penetration testing methodology, NIST SP 800-115 covers a broad range of assessment activities, including document reviews, log analysis, vulnerability assessments, and penetration testing. Penetration testing is treated as one component of a larger security assessment process.</p>
+<p>The framework focuses on three primary objectives:</p>
+<ul>
+<li>Identifying vulnerabilities in systems and applications</li>
+<li>Validating the effectiveness of security controls</li>
+<li>Assessing exploitability through realistic attack scenarios</li>
+</ul>
+<hr>
+<h4 id="phases-a-walkthrough_1"><strong>Phases: A Walkthrough</strong></h4>
+<p>Example: Security assessment of <em>GovNet</em>, a federal agency network.</p>
+<hr>
+<p><strong>Phase 1: Planning</strong></p>
+<p>Define scope, objectives, and rules of engagement before testing begins.</p>
+<p>For GovNet, this includes identifying in-scope systems, excluded environments, communication procedures, testing windows, and emergency stop conditions. The phase concludes with an approved test plan.</p>
+<hr>
+<p><strong>Phase 2: Execution</strong></p>
+<p>Active testing is performed using four technique categories:</p>
+<ul>
+<li><strong>Review Techniques</strong> – Examine policies, configurations, and documentation.</li>
+<li><strong>Target Identification &amp; Analysis</strong> – Discover hosts, ports, and services.</li>
+<li><strong>Target Vulnerability Validation</strong> – Confirm identified vulnerabilities are genuine and exploitable.</li>
+<li><strong>Penetration Testing</strong> – Simulate attacks to determine real-world impact.</li>
+</ul>
+<p>Example: A potential SQL injection is identified, validated manually, and then exploited to demonstrate access to sensitive records.</p>
+<hr>
+<p><strong>Phase 3: Post-Testing</strong></p>
+<p>Analyze findings, prioritize risks, and provide remediation guidance.</p>
+<p>Findings are categorized by severity, mapped to affected controls, and accompanied by actionable recommendations.</p>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>NIST SP 800-115 is valued for its flexibility, standardization, and strong credibility within government and regulated industries. Because it defines testing techniques rather than specific tools, it can be adapted to many environments.</p>
+<p>However, it is guidance rather than a regulatory requirement and relies on skilled testers capable of performing activities ranging from document reviews to exploitation.</p>
+<hr>
+<h4 id="questions_2"><strong>Questions:</strong></h4>
+<p><strong>During the Execution phase, your vulnerability scanner flags 15 potential issues on a web application. Before attempting exploitation, which NIST SP 800-115 technique category should you apply to these findings?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Target vulnerability validation
+</code></pre></div>
+<h3 id="task-5-ptes-penetration-testing-execution-standard"><strong>Task 5: PTES (Penetration Testing Execution Standard)</strong></h3>
+<p><strong>Overview</strong></p>
+<p>PTES focuses on the complete penetration testing lifecycle, from initial client discussions to final reporting. Unlike frameworks that emphasize specific testing techniques or metrics, PTES provides a practical workflow that mirrors how real-world engagements are conducted.</p>
+<p>Its strength lies in defining <strong>how a penetration test progresses from start to finish</strong>, making it particularly useful for junior penetration testers.</p>
+<hr>
+<h4 id="phases-a-walkthrough_2"><strong>Phases: A Walkthrough</strong></h4>
+<p>Example: Penetration test for <em>MedGuard Health</em>.</p>
+<hr>
+<p><strong>Phase 1: Pre-Engagement Interactions</strong></p>
+<p>Define scope, rules of engagement, testing windows, emergency contacts, and legal authorization.</p>
+<p>Example scope:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>10.10.0.0/16
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>records.medguard-health.thm
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Wireless networks
+</code></pre></div>
+<p>This phase ensures all testing is authorized and clearly documented before work begins.</p>
+<hr>
+<p><strong>Phase 2: Intelligence Gathering</strong></p>
+<p>Collect information using passive and active reconnaissance.</p>
+<p>Examples:</p>
+<ul>
+<li>LinkedIn employee enumeration</li>
+<li>Certificate Transparency logs</li>
+<li>Job postings</li>
+<li>DNS enumeration</li>
+<li>Network scanning</li>
+</ul>
+<hr>
+<p><strong>Phase 3: Threat Modeling</strong></p>
+<p>Identify valuable assets and likely attack paths.</p>
+<p>Example:</p>
+<ul>
+<li>Compromise the patient portal</li>
+<li>Compromise an employee workstation and pivot internally</li>
+</ul>
+<hr>
+<p><strong>Phase 4: Vulnerability Analysis</strong></p>
+<p>Identify and validate vulnerabilities through automated and manual testing.</p>
+<p>Examples:</p>
+<ul>
+<li>Outdated Apache Tomcat</li>
+<li>Missing workstation patches</li>
+</ul>
+<hr>
+<p><strong>Phase 5: Exploitation</strong></p>
+<p>Exploit confirmed vulnerabilities to demonstrate impact.</p>
+<p>Examples:</p>
+<ul>
+<li>Gain a shell through a Tomcat vulnerability</li>
+<li>Deliver a phishing payload to an employee workstation</li>
+</ul>
+<hr>
+<p><strong>Phase 6: Post-Exploitation</strong></p>
+<p>Determine the business impact of successful compromise.</p>
+<p>Examples:</p>
+<ul>
+<li>Access patient records</li>
+<li>Extract credentials</li>
+<li>Move laterally to sensitive systems</li>
+</ul>
+<hr>
+<p><strong>Phase 7: Reporting</strong></p>
+<p>Document findings for both technical and executive audiences.</p>
+<p>The report should include:</p>
+<ul>
+<li>Business impact</li>
+<li>Evidence</li>
+<li>Reproduction steps</li>
+<li>Remediation recommendations</li>
+</ul>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>PTES is valued for its practical, end-to-end approach and strong focus on scoping and legal authorization. It closely reflects how real penetration testing engagements are performed.</p>
+<p>Its main drawback is that some technical guidance is outdated and should be supplemented with modern tools and techniques. Unlike OSSTMM, it does not provide quantitative security metrics.</p>
+<hr>
+<h4 id="questions_3"><strong>Questions:</strong></h4>
+<p><strong>Which PTES phase number specifically addresses defining the scope, rules of engagement, and legal authorization for a penetration test?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>1
+</code></pre></div>
+<h4 id="task-6-issaf-information-systems-security-assessment-framework"><strong>Task 6: ISSAF (Information Systems Security Assessment Framework)</strong></h4>
+<p><strong>Overview</strong></p>
+<p>ISSAF is an open-source penetration testing framework developed by OISSG. Although it has not been actively maintained since around 2006, its methodology remains valuable for understanding how attackers progress through a target environment.</p>
+<p>The framework covers:</p>
+<ul>
+<li>Network security</li>
+<li>Host security</li>
+<li>Web applications</li>
+<li>Databases</li>
+<li>Social engineering</li>
+</ul>
+<p>Its primary value today lies in its <strong>nine-step assessment model</strong>, which closely mirrors the attacker lifecycle and Cyber Kill Chain concepts.</p>
+<hr>
+<h4 id="phases-a-walkthrough_3"><strong>Phases: A Walkthrough</strong></h4>
+<p>Example: Assessment of <em>TechBridge Solutions</em>.</p>
+<hr>
+<p><strong>Phase 1: Planning and Preparation</strong></p>
+<p>Define the scope, rules, constraints, and testing procedures.</p>
+<p>Example scope:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Corporate network
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Git server
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Project management portal
+</code></pre></div>
+<p>The goal is to ensure the assessment is authorized and properly planned.</p>
+<hr>
+<p><strong>Phase 2: Assessment</strong></p>
+<p>The core of ISSAF consists of nine sequential steps:</p>
+<ol>
+<li><strong>Information Gathering</strong> – Collect OSINT and target information.</li>
+<li><strong>Network Mapping</strong> – Identify hosts, services, and topology.</li>
+<li><strong>Vulnerability Identification</strong> – Discover weaknesses.</li>
+<li><strong>Penetration</strong> – Gain initial access.</li>
+<li><strong>Privilege Escalation</strong> – Obtain elevated permissions.</li>
+<li><strong>Further Enumeration</strong> – Identify additional targets and assets.</li>
+<li><strong>Lateral Movement</strong> – Access other systems using compromised credentials.</li>
+<li><strong>Maintaining Access</strong> – Demonstrate persistence techniques.</li>
+<li><strong>Covering Tracks</strong> – Identify ways an attacker could evade detection.</li>
+</ol>
+<p>The model progresses from reconnaissance to compromise, persistence, and stealth.</p>
+<hr>
+<p><strong>Phase 3: Reporting and Cleanup</strong></p>
+<p>Document findings, prioritize risks, remove test artifacts, and ensure no residual access remains.</p>
+<p>Example:</p>
+<ul>
+<li>Critical finding: Unauthenticated Jenkins console</li>
+<li>Result: Access to source code repositories and sensitive credentials</li>
+</ul>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>ISSAF's greatest strength is its clear attacker-focused methodology. The nine-step model provides an excellent framework for understanding how real-world intrusions develop.</p>
+<p>Its main limitation is that it is no longer maintained, making its tool recommendations and technical procedures outdated. Modern testing should supplement ISSAF with frameworks such as PTES, OWASP WSTG, or current tool documentation.</p>
+<hr>
+<h4 id="answers"><strong>Answers</strong></h4>
+<p><strong>ISSAF's nine-step assessment model begins with information gathering. What is the ninth and final step?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Covering tracks
+</code></pre></div>
+<h3 id="task-7-mitre-attck"><strong>Task 7 - MITRE ATT&amp;CK</strong></h3>
+<p><strong>Overview</strong></p>
+<p>MITRE ATT&amp;CK (<em>Adversarial Tactics, Techniques, and Common Knowledge</em>) is a knowledge base of real-world adversary behavior maintained by MITRE Corporation.</p>
+<p>Unlike PTES, OSSTMM, or NIST SP 800-115, ATT&amp;CK does <strong>not</strong> describe how to conduct a penetration test. Instead, it provides a standardized way to describe and categorize attacker actions observed during testing or real-world incidents.</p>
+<p>Its primary purpose is to help security teams understand, detect, and defend against adversary techniques.</p>
+<hr>
+<h4 id="the-attck-matrix"><strong>The ATT&amp;CK Matrix</strong></h4>
+<p>ATT&amp;CK is organized into a matrix consisting of:</p>
+<p><strong>Tactics (The "Why")</strong></p>
+<p>High-level attacker objectives, including:</p>
+<ul>
+<li>Initial Access</li>
+<li>Execution</li>
+<li>Persistence</li>
+<li>Privilege Escalation</li>
+<li>Defense Evasion</li>
+<li>Credential Access</li>
+<li>Discovery</li>
+<li>Lateral Movement</li>
+<li>Collection</li>
+<li>Command and Control</li>
+<li>Exfiltration</li>
+<li>Impact</li>
+</ul>
+<hr>
+<p><strong>Techniques (The "How")</strong></p>
+<p>Specific methods used to achieve a tactic.</p>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>T1566 - Phishing
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>T1190 - Exploit Public-Facing Application
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>T1003 - OS Credential Dumping
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>T1550 - Use Alternate Authentication Material
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>T1213 - Data from Information Repositories
+</code></pre></div>
+<p>Many techniques also contain sub-techniques.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>T1566.001 - Spearphishing Attachment
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>T1566.002 - Spearphishing Link
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>T1566.003 - Spearphishing via Service
+</code></pre></div>
+<p>Each ATT&amp;CK entry includes descriptions, real-world usage examples, detection guidance, and mitigations.</p>
+<hr>
+<p><strong>ATT&amp;CK as a Complement</strong></p>
+<p>ATT&amp;CK complements penetration testing frameworks rather than replacing them.</p>
+<ul>
+<li><strong>PTES</strong> → Defines how to perform the engagement.</li>
+<li><strong>ATT&amp;CK</strong> → Provides a common language for describing attacker behavior.</li>
+</ul>
+<p>By mapping findings to ATT&amp;CK IDs, penetration test reports become more useful for detection engineering, threat hunting, and defensive planning.</p>
+<hr>
+<p><strong>Example Mapping</strong></p>
+<table>
+<thead>
+<tr>
+<th>Engagement Finding</th>
+<th>ATT&amp;CK Technique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phishing email payload</td>
+<td>T1566.001</td>
+</tr>
+<tr>
+<td>Exploited Tomcat vulnerability</td>
+<td>T1190</td>
+</tr>
+<tr>
+<td>Credential dumping</td>
+<td>T1003</td>
+</tr>
+<tr>
+<td>Lateral movement with stolen credentials</td>
+<td>T1550</td>
+</tr>
+<tr>
+<td>Accessed patient records database</td>
+<td>T1213</td>
+</tr>
+</tbody>
+</table>
+<p>This allows defenders to focus on detecting attacker behaviors, not just patching individual vulnerabilities.</p>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>ATT&amp;CK serves as a universal language for describing adversary behavior. It is widely used by penetration testers, threat hunters, incident responders, and detection engineers.</p>
+<p>Its greatest strength is standardization: findings can be mapped directly to techniques observed in real-world attacks, providing context beyond individual vulnerabilities.</p>
+<hr>
+<p><strong>Key Takeaway</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>PTES = How to conduct a penetration test
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>MITRE ATT&amp;CK = How to describe attacker behavior observed during the test
+</code></pre></div>
+<h4 id="questions_4"><strong>Questions:</strong></h4>
+<ul>
+<li>In the ATT&amp;CK matrix, what do the columns represent?<ul>
+<li>tactics</li>
+</ul>
+</li>
+<li>In the ATT&amp;CK matrix, what do the rows within each column represent?<ul>
+<li>techniques</li>
+</ul>
+</li>
+<li>You compromised a web server by exploiting an unpatched vulnerability in its public-facing application. What ATT&amp;CK technique ID would you use to classify this finding?<ul>
+<li>T1190</li>
+</ul>
+</li>
+</ul>
+<h3 id="task-8-other-notable-frameworks"><strong>Task 8 - Other Notable Frameworks</strong></h3>
+<p><strong>Overview</strong></p>
+<p>Beyond core penetration testing and security frameworks like PTES, OWASP WSTG, OSSTMM, NIST SP 800-115, ISSAF, and MITRE ATT&amp;CK, there are several specialized frameworks used depending on industry, platform, and compliance requirements.</p>
+<p>These frameworks are typically domain-specific, meaning they are chosen based on the client’s environment rather than used universally.</p>
+<hr>
+<h4 id="frameworks"><strong>Frameworks</strong></h4>
+<p><strong>WASC Threat Classification</strong></p>
+<p>A taxonomy for categorizing web application threats developed by the Web Application Security Consortium (WASC). It groups vulnerabilities into categories such as authentication issues, information disclosure, and abuse of functionality.</p>
+<p>It is largely deprecated and has been replaced in practice by OWASP resources, but it still appears in legacy documentation.</p>
+<hr>
+<p><strong>CSA Cloud Controls Matrix (CCM)</strong></p>
+<p>A cloud security governance framework published by the Cloud Security Alliance.</p>
+<p>It defines security controls across cloud environments, including identity management, data security, and infrastructure protection, and maps them to standards such as ISO 27001, NIST, and PCI DSS.</p>
+<p>It is primarily used for <strong>cloud security posture and compliance assessments</strong>, not penetration testing.</p>
+<hr>
+<p><strong>OWASP Mobile Application Security Testing Guide (MASTG)</strong></p>
+<p>A testing framework maintained by OWASP Foundation for evaluating mobile application security (Android and iOS).</p>
+<p>It covers:</p>
+<ul>
+<li>Secure data storage</li>
+<li>Cryptography</li>
+<li>Network communication</li>
+<li>Platform interaction</li>
+<li>Code quality</li>
+</ul>
+<p>It is used alongside the Mobile Application Security Verification Standard (MASVS) to test mobile apps such as banking or healthcare applications.</p>
+<hr>
+<p><strong>PCI DSS Penetration Testing Guidelines</strong></p>
+<p>Defined under Requirement 11.4 of PCI DSS v4.0, this is a <strong>mandatory regulatory framework</strong> for organizations handling payment card data.</p>
+<p>It requires:</p>
+<ul>
+<li>Regular penetration testing (at least annually)</li>
+<li>Testing after significant infrastructure changes</li>
+<li>Coverage of internal and external environments</li>
+<li>Validation of network segmentation controls</li>
+</ul>
+<p>It applies to any organization processing, storing, or transmitting cardholder data.</p>
+<hr>
+<p><strong>CBEST Framework</strong></p>
+<p>A threat intelligence-led penetration testing framework developed by the Bank of England for UK financial institutions.</p>
+<p>It focuses on simulating realistic attacker behavior based on intelligence about relevant threat actors, making it highly tailored to financial sector risk profiles.</p>
+<hr>
+<h4 id="comparison-summary"><strong>Comparison Summary</strong></h4>
+<ul>
+<li><strong>WASC</strong> → Legacy web vulnerability taxonomy</li>
+<li><strong>CSA CCM</strong> → Cloud governance and compliance assessment</li>
+<li><strong>OWASP MASTG</strong> → Mobile application security testing</li>
+<li><strong>PCI DSS PT Guidelines</strong> → Mandatory payment card security testing</li>
+<li><strong>CBEST</strong> → Threat-intelligence-driven financial sector testing</li>
+</ul>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>Framework selection depends heavily on context, including industry, platform, and regulatory environment. Understanding these frameworks allows penetration testers to identify the correct methodology for a given engagement rather than relying on a single universal approach.</p>
+<hr>
+<h4 id="questions_5"><strong>Questions:</strong></h4>
+<p><strong>Your client is a European online retailer that processes credit card payments. Which framework governs the penetration testing requirements?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>PCI DSS Penetration Testing Guidelines
+</code></pre></div>
+<p><strong>Security assessment of an iOS banking app (local storage + API communication)?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>OWASP Mobile Application Security Testing Guide
+</code></pre></div>
+<p><strong>Cloud infrastructure controls assessment (AWS, not a pentest)?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>CSA Cloud Controls Matrix
+</code></pre></div>
+<h3 id="task-9-choosing-the-right-framework"><strong>Task 9 - Choosing the Right Framework</strong></h3>
+<p><strong>Overview</strong></p>
+<p>By this stage, you are familiar with multiple penetration testing frameworks, each designed with a different focus. However, knowing what each framework does is not enough — the real challenge is selecting the right one for a given engagement.</p>
+<p>Framework selection is one of the first practical decisions a penetration tester makes after receiving scope details. Much like a mechanic choosing tools based on the job, testers select frameworks based on environment, objectives, and constraints.</p>
+<p>No single framework fits every situation. Instead, the choice depends on context.</p>
+<hr>
+<p><strong>Selection Criteria</strong></p>
+<h4 id="engagement-scope-and-target-type"><strong>Engagement scope and target type</strong></h4>
+<p>The type of system being tested often determines the framework:</p>
+<ul>
+<li>Web applications → OWASP WSTG</li>
+<li>Mobile applications → OWASP MASTG</li>
+<li>Network / full-scope engagements → PTES or OSSTMM</li>
+<li>Multi-channel assessments (including human/physical) → OSSTMM</li>
+</ul>
+<hr>
+<h4 id="regulatory-and-compliance-requirements"><strong>Regulatory and compliance requirements</strong></h4>
+<p>Legal and industry obligations can override preference entirely:</p>
+<ul>
+<li>PCI DSS → mandatory for payment card environments</li>
+<li>CBEST → required for UK financial institutions</li>
+<li>NIST SP 800-115 → common in U.S. federal/government contexts</li>
+</ul>
+<p>When regulations apply, compliance defines the framework.</p>
+<hr>
+<h4 id="need-for-measurable-results"><strong>Need for measurable results</strong></h4>
+<p>When results must be comparable over time or between testers, quantitative frameworks are preferred.</p>
+<p>OSSTMM is specifically designed for this through its Risk Assessment Values (RAV), enabling objective comparison across engagements.</p>
+<hr>
+<h4 id="team-expertise-and-resources"><strong>Team expertise and resources</strong></h4>
+<p>Framework choice must match team capability:</p>
+<ul>
+<li>OSSTMM → high complexity, metric-heavy</li>
+<li>CBEST → requires threat intelligence capability</li>
+<li>PTES → practical and widely accessible for standard engagements</li>
+</ul>
+<hr>
+<h4 id="scenario-practice"><strong>Scenario Practice</strong></h4>
+<p><strong>Scenario 1: Hospital assessment</strong></p>
+<p>A hospital requires testing of a patient portal and internal network, with executive reporting and HIPAA compliance.</p>
+<p><strong>Best choice:</strong> PTES</p>
+<ul>
+<li>Provides full engagement lifecycle</li>
+<li>Supports both web and network testing</li>
+<li>Produces executive + technical reporting</li>
+</ul>
+<p>Supplement: OWASP WSTG + MITRE ATT&amp;CK mapping</p>
+<hr>
+<p><strong>Scenario 2: UK bank assessment</strong></p>
+<p>A London-based bank requires a regulatory penetration test with threat intelligence requirements.</p>
+<p><strong>Best choice:</strong> CBEST</p>
+<ul>
+<li>Mandatory for UK financial sector</li>
+<li>Includes threat-intel-led testing</li>
+<li>Approved by regulators</li>
+</ul>
+<hr>
+<p><strong>Scenario 3: SaaS platform comparison over time</strong></p>
+<p>A web-based SaaS platform requires repeatable testing across years and different teams.</p>
+<p><strong>Best choice:</strong> OSSTMM</p>
+<ul>
+<li>Enables measurable comparison via RAV</li>
+<li>Supports consistency across assessors</li>
+<li>Works well with OWASP WSTG for web testing</li>
+</ul>
+<hr>
+<p><strong>Scenario 4: Fintech mobile + payments</strong></p>
+<p>A company has Android and iOS banking apps handling card payments.</p>
+<p><strong>Best choice:</strong> OWASP MASTG + PCI DSS</p>
+<ul>
+<li>MASTG → mobile application security testing</li>
+<li>PCI DSS → regulatory compliance for card data</li>
+</ul>
+<hr>
+<p><strong>Closing Notes</strong></p>
+<p>Framework selection is rarely exclusive. Most real-world engagements combine a primary framework (for structure) with supporting frameworks (for compliance, platform coverage, or reporting enhancement).</p>
+<p>The key skill is recognizing which framework applies based on scope, regulation, and objectives — and when multiple frameworks must be combined.</p>
+<hr>
+<h4 id="questions_6"><strong>Questions:</strong></h4>
+<p><strong>A U.S. federal agency needs a security assessment of its internal network with document review + active testing. Which framework fits best?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>NIST SP 800-115
+</code></pre></div>
+<p><strong>E-commerce company with web storefront + mobile app + payment processing system. Which frameworks apply?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>WSTG,MASTG,PCI DSS
+</code></pre></div>
+<h3 id="task-10-conclusion"><strong>Task 10 - Conclusion</strong></h3>
+<p>The flag is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>THM{pen-test-fr4m3work5}
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/c0rnyx" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://tryhackme.com/p/sam11" target="_blank" rel="noopener" title="tryhackme.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 0c4.6 0 9.2 1 13.4 2.9l188.4 79.9c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.6 239.2 16.1 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.9 1 251.4 0 256 0"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "navigation.tabs", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

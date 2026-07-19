@@ -1,0 +1,2624 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="THM, eCPPT, Offensive Security Portfolio">
+      
+      
+      
+        <link rel="canonical" href="https://c0rnyx.github.io/redops-journal/thm/room-walkthroughs/breaching-ad/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../easy-peasy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Breaching AD - RedOps Journal</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#breaching-ad-tryhackme-room-walkthrough" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="RedOps Journal" class="md-header__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RedOps Journal
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Breaching AD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mock-pentests/" class="md-tabs__link">
+          
+  
+  
+  Mock Pentest Reports
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Room Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../linux/" class="md-tabs__link">
+          
+  
+  
+  Linux Practice
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../aboutme/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="RedOps Journal" class="md-nav__button md-logo" aria-label="RedOps Journal" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    RedOps Journal
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mock Pentest Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mock Pentest Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/agent-sudo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Sudo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/anonymous/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anonymous
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/bounty-hacker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bounty Hacker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/eternal-blue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eternal Blue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/kenobi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kenobi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/lazy-admin-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lazy Admin (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/mr-robot-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mr. Robot (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/root-me/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Root Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smag-grotto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smag Grotto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/smol-cz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smol (CZ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/tools-rus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolsRus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mock-pentests/vulnversity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vulnversity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Room Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Room Walkthroughs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Breaching AD
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Breaching AD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-introduction-to-active-directory-breaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1 — Introduction to Active Directory Breaches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-osint-and-phishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2 — OSINT and Phishing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-ntlm-and-netntlm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3 — NTLM and NetNTLM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3 — NTLM and NetNTLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-ldap-bind-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4 — LDAP Bind Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4 — LDAP Bind Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performing-an-ldap-pass-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performing an LDAP Pass-back
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-authentication-relays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5 — Authentication Relays
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5 — Authentication Relays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-microsoft-deployment-toolkit-mdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 6 — Microsoft Deployment Toolkit (MDT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 6 — Microsoft Deployment Toolkit (MDT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-configuration-file-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 7 — Configuration File Enumeration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 7 — Configuration File Enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../easy-peasy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Easy Peasy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-fundamentals-part-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Fundamentals Part 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-privilege-escalation-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Privilege Escalation Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netsec-challenge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Net Sec Challenge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-services-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Services 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../penetration-testing-frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-exploitation-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post Exploitation Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../take-over/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Take over
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Practice
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux Practice
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%201-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 1 to 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2011-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 11 to 20
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/levels%2021-33/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit - levels 21 to 33
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aboutme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-introduction-to-active-directory-breaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1 — Introduction to Active Directory Breaches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-osint-and-phishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2 — OSINT and Phishing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-ntlm-and-netntlm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3 — NTLM and NetNTLM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 3 — NTLM and NetNTLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-ldap-bind-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4 — LDAP Bind Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4 — LDAP Bind Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performing-an-ldap-pass-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performing an LDAP Pass-back
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-authentication-relays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5 — Authentication Relays
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5 — Authentication Relays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-microsoft-deployment-toolkit-mdt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 6 — Microsoft Deployment Toolkit (MDT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 6 — Microsoft Deployment Toolkit (MDT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-configuration-file-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 7 — Configuration File Enumeration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 7 — Configuration File Enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#questions_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<hr>
+<h1 id="breaching-ad-tryhackme-room-walkthrough"><strong>Breaching AD TryHackMe Room Walkthrough</strong></h1>
+<hr>
+<h3 id="overview"><strong>Overview</strong></h3>
+<p>This lab focused on common techniques used to breach and enumerate a Microsoft Active Directory (AD) environment. The exercises demonstrated how attackers can abuse weak configurations, insecure authentication mechanisms, and deployment infrastructure to gain credentials and move laterally within a Windows domain network.</p>
+<p>Since Active Directory is used by the vast majority of enterprise environments, understanding these attack paths is critical for both offensive security professionals and defenders.</p>
+<p>For a more in-depth understanding of Active Directory and how it works, it is recommended to complete the &nbsp;<a href="https://tryhackme.com/jr/winadbasics">AD&nbsp;basics first.</a></p>
+<hr>
+<h3 id="task-1-introduction-to-active-directory-breaches"><strong>Task 1 — Introduction to Active Directory Breaches</strong></h3>
+<p>Microsoft Active Directory is the primary identity and access management solution used in Windows enterprise environments. Approximately 90% of Fortune 1000 companies rely on AD for centralized authentication, authorization, and policy management meaning that if there is an organization using Microsoft Windows, it is almost guaranteed to find Active Directory present.</p>
+<p>This room introduced some common attack vectors used during Active Directory compromise scenarios including: </p>
+<ul>
+<li>NTLM&nbsp;Authenticated Services</li>
+<li>LDAP&nbsp;Bind Credentials</li>
+<li>Authentication Relays</li>
+<li>Microsoft Deployment Toolkit</li>
+<li>Configuration Files</li>
+</ul>
+<p>Connecting to the Network via the Attack Box: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>**<span class="o">[</span>thm@thm<span class="o">]</span>$<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'1s|^|nameserver THMDCIP\n|'</span><span class="w"> </span>/etc/resolv-dnsmasq**
+</code></pre></div>
+<p>The THMDCIP should be replaced with the IP of THMDC in the provided network diagram. Once done the DNS service needs to be restarted using <code>systemctl restart dnsmasq</code> . Afterwards the functionality of DNS can be tested by running <code>nslookup thmdc.za.tryhackme.com</code></p>
+<hr>
+<h3 id="task-2-osint-and-phishing"><strong>Task 2 — OSINT and Phishing</strong></h3>
+<p>Two popular methods of gaining initial access techniques used against Active Directory environments are:</p>
+<ul>
+<li>Open Source Intelligence (OSINT)</li>
+<li>Phishing</li>
+</ul>
+<p><strong>Open Source Intelligence (OSINT)</strong></p>
+<p>OSINT involves gathering publicly available information about a target organization. Examples include:</p>
+<ul>
+<li>Employee names</li>
+<li>Email addresses</li>
+<li>Corporate infrastructure</li>
+<li>Credentials leaks disclosed in past breaches - HaveIBeenPwned and DeHashed are great platforms to determine if someone’s information was ever involved in publicly known data breach.</li>
+<li>Publicly exposed services</li>
+</ul>
+<p>This information can later be leveraged during password attacks or social engineering campaigns.</p>
+<p><strong>Phishing</strong></p>
+<p>Phishing attacks attempt to trick users into:</p>
+<ul>
+<li>Entering credentials into malicious websites</li>
+<li>Downloading malware</li>
+<li>Executing Remote Access Trojans (RATs)</li>
+</ul>
+<p>These attacks are frequently used to obtain an initial foothold inside enterprise environments.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-20.png" data-desc-position="bottom"><img alt="ad-20.png" src="ad-20.png"></a></p>
+<hr>
+<h3 id="task-3-ntlm-and-netntlm"><strong>Task 3 — NTLM and NetNTLM</strong></h3>
+<p>This task focused on NTLM authentication mechanisms used within Active Directory environments.</p>
+<p><strong>NTLM Authentication</strong></p>
+<p>NTLM (New Technology LAN Manager) is a suite of authentication protocols used by Microsoft systems.</p>
+<p>NetNTLM authentication operates using a challenge-response mechanism where:</p>
+<ol>
+<li>A client attempts authentication</li>
+<li>The server forwards authentication data to the Domain Controller</li>
+<li>The Domain Controller validates the response</li>
+<li>Access is granted if authentication succeeds</li>
+</ol>
+<p>This mechanism is heavily used by services such as SMB, LDAP, and HTTP authentication.</p>
+<p><strong>Password Spraying Against Exposed NTLM Authentication</strong></p>
+<p>This task focused on identifying valid Active Directory credentials through password spraying against an externally exposed NTLM authentication service that can be accessed at: <a href="http://ntlmauth.za.tryhackme.com/">http://ntlmauth.za.tryhackme.com</a>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-1.png" data-desc-position="bottom"><img alt="ad-1.png" src="ad-1.png"></a></p>
+<p>Password spraying is a technique where a single password is tested against multiple usernames in order to reduce the likelihood of triggering account lockout policies. Unlike traditional brute-force attacks that repeatedly target a single account, password spraying distributes authentication attempts across many users. </p>
+<p>We have been provided with a valid onboarding password “Changeme123”, list of usernames, a python script and are basing our password spraying attack on a pressumption that even though new employees are prompted to change their password, not everyone does it. </p>
+<p>The provided Python script automated this process by:</p>
+<ul>
+<li>Attempting authentication against the exposed NTLM-enabled web service</li>
+<li>Monitoring HTTP response codes</li>
+<li>Identifying successful logins based on server responses</li>
+</ul>
+<p>The script interpreted responses as follows:</p>
+<ul>
+<li><code>HTTP 200</code> → Successful authentication</li>
+<li><code>HTTP 401</code> → Failed authentication attempt</li>
+</ul>
+<p>Failed attempts produced output similar to:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Failed Login with Username: &lt;username&gt;
+</code></pre></div>
+<p>Successful authentication attempts revealed valid credential pairs. </p>
+<p>Using the AttackBox, the password spraying script and usernames textfile is provided under the&nbsp;<code>/root/Rooms/BreachingAD/task3/</code>&nbsp;directory. We can run the script using the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python ntlm_passwordspray.py -u &lt;userfile&gt; -f &lt;fqdn&gt; -p &lt;password&gt; -a &lt;attackurl&gt;
+</code></pre></div>
+<p>We provide the following values for each of the parameters:</p>
+<ul>
+<li><strong><userfile></userfile></strong>&nbsp;- Textfile containing our usernames -&nbsp;<em>"usernames.txt"</em></li>
+<li><strong><fqdn></fqdn></strong>&nbsp;- Fully qualified domain name associated with the organisation that we are attacking -&nbsp;<em>"za.tryhackme.com"</em></li>
+<li><strong><password></password></strong>&nbsp;- The password we want to use for our spraying attack -&nbsp;<em>"Changeme123"</em></li>
+<li><strong><attackurl></attackurl></strong>&nbsp;- The URL of the application that supports Windows Authentication -&nbsp;<em>"http://ntlmauth.za.tryhackme.com"</em></li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-2.png" data-desc-position="bottom"><img alt="ad-2.png" src="ad-2.png"></a></p>
+<hr>
+<h4 id="questions"><strong>Questions:</strong></h4>
+<p>What is the name of the challenge-response authentication mechanism that uses NTLM?</p>
+<ul>
+<li>NetNTLM</li>
+</ul>
+<p>What is the username of the third valid credential pair found by the password spraying script?</p>
+<ul>
+<li>gordon.stevens</li>
+</ul>
+<p>How many valid credential pairs were identified?</p>
+<ul>
+<li>4</li>
+</ul>
+<p>What message is displayed by the application after successful authentication?</p>
+<ul>
+<li>Hello World</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-3.png" data-desc-position="bottom"><img alt="ad-3.png" src="ad-3.png"></a></p>
+<hr>
+<h4 id="security-impact"><strong>Security Impact</strong></h4>
+<p>This exercise demonstrated how exposed NTLM authentication services can be vulnerable to password spraying attacks, particularly when:</p>
+<ul>
+<li>Weak passwords are used</li>
+<li>Account lockout policies are insufficient</li>
+<li>Internet-facing authentication portals are exposed</li>
+</ul>
+<h4 id="recommended-mitigations"><strong>Recommended Mitigations</strong></h4>
+<ul>
+<li>Enforce strong password policies</li>
+<li>Implement multi-factor authentication (MFA)</li>
+<li>Restrict external exposure of NTLM authentication services</li>
+<li>Configure account lockout thresholds</li>
+<li>Monitor for password spraying behavior in authentication logs</li>
+</ul>
+<hr>
+<h3 id="task-4-ldap-bind-credentials"><strong>Task 4 — LDAP Bind Credentials</strong></h3>
+<p>This task demonstrated an LDAP Pass-Back attack against a network printer.</p>
+<p>The objective was to redirect LDAP authentication traffic from the printer to a rogue LDAP server controlled by the attacker in order to capture credentials in cleartext. </p>
+<p>LDAP&nbsp;authentication is a popular mechanism with third-party (non-Microsoft) applications that integrate with&nbsp;AD. These include applications and systems such as:</p>
+<ul>
+<li>Gitlab</li>
+<li>Jenkins</li>
+<li>Custom-developed web applications</li>
+<li>Printers</li>
+<li>VPNs</li>
+</ul>
+<h4 id="performing-an-ldap-pass-back"><strong>Performing an LDAP Pass-back</strong></h4>
+<p>There is a network printer in this network where the administration website does not even require credentials and is accessible at&nbsp;<a href="http://printer.za.tryhackme.com/settings.aspx">http://printer.za.tryhackme.com/settings.aspx</a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-4.png" data-desc-position="bottom"><img alt="ad-4.png" src="ad-4.png"></a></p>
+<p>Using browser inspection, we can also verify that the printer website was at least secure enough to not just send the LDAP password back to the browser:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-21.png" data-desc-position="bottom"><img alt="ad-21.png" src="ad-21.png"></a></p>
+<p>The username was already known, but the password had not yet been identified. When the <strong>“Test Settings”</strong> option was selected on the printer’s web interface, the device sent an LDAP authentication request to the Domain Controller to validate the credentials.</p>
+<p>By redirecting this request to an attacker-controlled system, it was possible to intercept the authentication attempt and potentially capture the credentials.</p>
+<p>The attack box contained multiple interfaces. The correct interface connected to the lab environment was identified using <code>ip a</code> . The <code>breachad</code> interface contained the internal lab IP address.</p>
+<p>Before listening on port 389, the existing LDAP service had to be stopped <code>service slapd stop</code>. Afterwards we can set up the listener <code>nc -lvp 389</code> .</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-5.png" data-desc-position="bottom"><img alt="ad-5.png" src="ad-5.png"></a></p>
+<p>The Netcat listener successfully received a connection from the printer, confirming that LDAP traffic was being redirected to the attacker-controlled host. However, the response also showed that the printer was attempting to negotiate a supported LDAP authentication mechanism before transmitting credentials.</p>
+<p>Because secure authentication methods prevent credentials from being sent in cleartext, a simple Netcat listener was insufficient for capturing them. To force the printer to use an insecure authentication method, a rogue LDAP server needed to be configured with weak security settings.</p>
+<p>The LDAP service on the AttackBox was reconfigured using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>dpkg-reconfigure<span class="w"> </span>-p<span class="w"> </span>low<span class="w"> </span>slapd
+</code></pre></div>
+<p>The LDAP service was then reconfigured to prepare a rogue server capable of capturing credentials.</p>
+<p>During setup, the following configuration steps were applied:</p>
+<ul>
+<li>Server configuration: <strong>No</strong> (initial setup not skipped)</li>
+<li>DNS domain name: <strong>za.tryhackme.com</strong></li>
+<li>Organization name: <strong>za.tryhackme.com</strong></li>
+<li>Administrator password: user-defined</li>
+<li>Database backend: <strong>MDB</strong></li>
+<li>Remove database on purge: <strong>No</strong></li>
+<li>Move old database: <strong>Yes</strong></li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-6.png" data-desc-position="bottom"><img alt="ad-6.png" src="ad-6.png"></a></p>
+<p>After initial configuration, the LDAP server was hardened to force insecure authentication methods (PLAIN and LOGIN only). This was done by creating an LDIF configuration file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>subl<span class="w"> </span>olcSaslSecProps.ldif
+</code></pre></div>
+<p>The following configuration was added:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dn: cn=config
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>changetype: modify
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>replace: olcSaslSecProps
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>olcSaslSecProps: noanonymous,minssf=0
+</code></pre></div>
+<h4 id="configuration-explanation"><strong>Configuration Explanation</strong></h4>
+<ul>
+<li><code>noanonymous</code> disables anonymous authentication</li>
+<li><code>minssf=0</code> removes minimum security requirements</li>
+</ul>
+<p>This forced the LDAP server to accept insecure authentication methods.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-7.png" data-desc-position="bottom"><img alt="ad-7.png" src="ad-7.png"></a></p>
+<p><strong>Applying the Configuration</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>ldapmodify<span class="w"> </span>-Y<span class="w"> </span>EXTERNAL<span class="w"> </span>-H<span class="w"> </span>ldapi://<span class="w"> </span>-f<span class="w"> </span>./olcSaslSecProps.ldif
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>service<span class="w"> </span>slapd<span class="w"> </span>restart
+</code></pre></div>
+<p><strong>Verifying LDAP Authentication Mechanisms</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ldapsearch<span class="w"> </span>-H<span class="w"> </span>ldap://<span class="w"> </span>-x<span class="w"> </span>-LLL<span class="w"> </span>-s<span class="w"> </span>base<span class="w"> </span>-b<span class="w"> </span><span class="s2">""</span><span class="w"> </span>supportedSASLMechanisms
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-8.png" data-desc-position="bottom"><img alt="ad-8.png" src="ad-8.png"></a></p>
+<p>The output confirmed that insecure authentication methods were enabled.</p>
+<p><strong>Capturing Credentials</strong></p>
+<p>Traffic was captured using <code>tcpdump</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>tcpdump<span class="w"> </span>-SX<span class="w"> </span>-i<span class="w"> </span>breachad<span class="w"> </span>tcp<span class="w"> </span>port<span class="w"> </span><span class="m">389</span>
+</code></pre></div>
+<p>Once the printer’s “Test Settings” button was clicked, LDAP credentials were transmitted in cleartext and recovered from the packet capture.</p>
+<h4 id="questions_1"><strong>Questions:</strong></h4>
+<p>What type of attack can be performed against LDAP Authentication systems not commonly found against Windows Authentication systems?</p>
+<ul>
+<li>LDAP Pass-back Attack</li>
+</ul>
+<p>What two authentication mechanisms do we allow on our rogue LDAP server to downgrade the authentication and make it clear text?</p>
+<ul>
+<li>LOGIN,PLAIN</li>
+</ul>
+<p>What is the password associated with the svcLDAP account?</p>
+<ul>
+<li>tryhackmeldappass1@</li>
+</ul>
+<hr>
+<h3 id="task-5-authentication-relays"><strong>Task 5 — Authentication Relays</strong></h3>
+<p>This task focused on understanding how NetNTLM authentication operates over the SMB protocol from a network perspective.</p>
+<p><strong>SMB and Active Directory Environments</strong></p>
+<p>The Server Message Block (SMB) protocol is widely used in Windows networks for communication between clients and servers. In Active Directory environments, SMB is responsible for a range of functions including file sharing, printer access, and remote administration tasks. Even routine events, such as printer status notifications, are handled via SMB.</p>
+<p>Older SMB implementations contained multiple security vulnerabilities that could be exploited for credential recovery or remote code execution. Although modern versions have improved security, legacy compatibility requirements often prevent organizations from enforcing the latest protocol versions.</p>
+<hr>
+<p><strong>NetNTLM Attacks Over SMB</strong></p>
+<p>Two primary attack paths exist when targeting NetNTLM authentication over SMB:</p>
+<ul>
+<li>
+<p><strong>Offline cracking of captured NTLM challenges</strong></p>
+<p>Intercepted challenge-response pairs can be brute-forced offline to recover passwords. However, this process is significantly slower compared to cracking raw NTLM hashes.</p>
+</li>
+<li>
+<p><strong>NTLM relay attacks (Man-in-the-Middle)</strong></p>
+<p>Authentication traffic can be relayed between a client and server, allowing an attacker to authenticate in real time and gain access to the target system without needing to crack the password.</p>
+</li>
+</ul>
+<hr>
+<p><strong>LLMNR, NBT-NS, and WPAD Poisoning</strong></p>
+<p>NetNTLM authentication attempts often rely on name resolution protocols such as:</p>
+<ul>
+<li>LLMNR (Link-Local Multicast Name Resolution)</li>
+<li>NBT-NS (NetBIOS Name Service)</li>
+<li>WPAD (Web Proxy Auto-Discovery)</li>
+</ul>
+<p>These protocols are used when DNS resolution fails, allowing hosts to broadcast requests across the local network to locate services.</p>
+<p>Responder can exploit this behavior by poisoning these broadcast requests and responding with the attacker’s IP address. As a result, clients are tricked into authenticating against the attacker-controlled system instead of the legitimate server.</p>
+<hr>
+<p><strong>Responder Attack Flow</strong></p>
+<p>Responder performs a man-in-the-middle attack by:</p>
+<ul>
+<li>Listening for broadcast name resolution requests</li>
+<li>Responding with spoofed answers pointing to the attacker’s IP</li>
+<li>Hosting fake SMB/HTTP/SQL services to capture authentication attempts</li>
+<li>Intercepting NetNTLM challenge-response exchanges</li>
+</ul>
+<p>Because these attacks rely on race conditions, Responder attempts to respond faster than legitimate infrastructure, effectively redirecting authentication traffic.</p>
+<hr>
+<h4 id="practical-considerations"><strong>Practical Considerations</strong></h4>
+<p>In real-world environments, Responder is typically limited to local network segments, as it relies on broadcast-based protocols. In this lab scenario, authentication attempts were simulated to occur periodically, meaning interception may require waiting for scheduled traffic.</p>
+<p>While powerful, this technique is highly disruptive in production environments, as it can interfere with legitimate authentication processes and cause service failures if misused. For this reason, it must be used carefully during authorized security assessments.</p>
+<p><strong>Launching Responder</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>breachad
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-9.png" data-desc-position="bottom"><img alt="ad-9.png" src="ad-9.png"></a></p>
+<p>Responder poisoned authentication requests and intercepted NTLMv2 challenge-response hashes from systems attempting SMB authentication.</p>
+<p>The captured NTLMv2 hash was saved into a text file for offline cracking.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-10.png" data-desc-position="bottom"><img alt="ad-10.png" src="ad-10.png"></a></p>
+<p><strong>Cracking the NTLMv2 Hash</strong></p>
+<p>Hashcat was used to recover the password:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">5600</span><span class="w"> </span>hash.txt<span class="w"> </span>passwordlist.txt<span class="w"> </span>--force
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-11.png" data-desc-position="bottom"><img alt="ad-11.png" src="ad-11.png"></a></p>
+<p><strong>Explanation</strong></p>
+<ul>
+<li><code>m 5600</code> specifies NTLMv2 hash mode</li>
+<li><code>hash.txt</code> contains the captured hash</li>
+<li><code>passwordlist.txt</code> contains the supplied wordlist</li>
+</ul>
+<p>Successful cracking revealed the user password.</p>
+<h4 id="questions_2"><strong>Questions:</strong></h4>
+<p>What is the name of the tool we can use to poison and capture authentication requests on the network?</p>
+<ul>
+<li>Responder</li>
+</ul>
+<p>What is the username associated with the challenge that was captured?</p>
+<ul>
+<li>svcFileCopy</li>
+</ul>
+<p>What is the value of the cracked password associated with the challenge that was captured?</p>
+<ul>
+<li>FPassword1!</li>
+</ul>
+<hr>
+<h3 id="task-6-microsoft-deployment-toolkit-mdt"><strong>Task 6 — Microsoft Deployment Toolkit (MDT)</strong></h3>
+<p>This task focused on abusing Microsoft Deployment Toolkit (MDT) infrastructure.</p>
+<p>MDT and SCCM are commonly used to deploy operating systems and manage enterprise systems. Misconfigurations within these systems can expose sensitive deployment credentials.</p>
+<p><strong>PXE Boot Attack Overview</strong></p>
+<p>Large organizations commonly use PXE (Preboot Execution Environment) booting to deploy operating systems over the network. In Microsoft environments, this functionality is often managed through MDT (Microsoft Deployment Toolkit), which handles the creation and distribution of boot images.</p>
+<p>PXE boot is typically integrated with DHCP. When a device receives an IP address, it can request a network boot image from the PXE server and begin an automated OS installation process.</p>
+<p><strong>Attack Surface</strong></p>
+<p>PXE boot environments can be abused in multiple ways:</p>
+<ul>
+<li>Injecting malicious configuration or privilege escalation payloads (e.g., local admin accounts)</li>
+<li>Extracting sensitive credentials used during automated deployments</li>
+</ul>
+<p>This task focuses on credential extraction from PXE deployment images.</p>
+<hr>
+<p><strong>PXE Boot Enumeration</strong></p>
+<p>In a real-world scenario, PXE boot information is typically discovered via DHCP. In this lab, the required details are manually provided. </p>
+<p>The first piece of information regarding the PXE Boot preconfigure you would have received via&nbsp;DHCP&nbsp;is the IP of the MDT server. In our case, you can recover that information from the TryHackMe network diagram.</p>
+<p>The second piece of information you would have received was the names of the BCD files. These files store the information relevant to PXE Boots for the different types of architecture. To retrieve this information, you will need to connect to this website:&nbsp;<a href="http://pxeboot.za.tryhackme.com/">http://pxeboot.za.tryhackme.com</a>. It will list various BCD files:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-12.png" data-desc-position="bottom"><img alt="ad-12.png" src="ad-12.png"></a></p>
+<p>We are focusing on the <strong>x64{8D512...86D}.bcd file.</strong> </p>
+<p>With this initial information now recovered from DHCP, we can enumerate and retrieve the PXE Boot image. We will be using our SSH connection on THMJMP1.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ssh<span class="w"> </span>thm@THMJMP1.za.tryhackme.com
+</code></pre></div>
+<p>and the password of <code>Password1@</code> We start by creating a folder with our username and copying the powerpxe repository into that folder:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-13.png" data-desc-position="bottom"><img alt="ad-13.png" src="ad-13.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-14.png" data-desc-position="bottom"><img alt="ad-14.png" src="ad-14.png"></a></p>
+<p><strong>Retrieving the BCD File</strong></p>
+<p>Using TFTP, the PXE boot configuration file is downloaded from the MDT server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>tftp<span class="w"> </span>-i<span class="w"> </span>&lt;THMMDT_IP&gt;<span class="w"> </span>GET<span class="w"> </span><span class="s2">"\Tmp\x64{GUID}.bcd"</span><span class="w"> </span>conf.bcd
+</code></pre></div>
+<p>BCD files contain boot configuration data used to locate the Windows deployment image.</p>
+<p><strong>Extracting PXE Boot Configuration</strong></p>
+<p>Once downloaded, the BCD file is analyzed using PowerPXE to extract the location of the Windows Imaging Format (WIM) file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">powershell</span> <span class="n">-executionpolicy</span> <span class="n">bypass</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerPXE</span><span class="p">.</span><span class="n">ps1</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nv">$BCDFile</span> <span class="p">=</span> <span class="s2">"conf.bcd"</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nb">Get-WimFile</span> <span class="n">-bcdFile</span> <span class="nv">$BCDFile</span>
+</code></pre></div>
+<p>This reveals the network path to the boot image required for system deployment.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-16.png" data-desc-position="bottom"><img alt="ad-16.png" src="ad-16.png"></a></p>
+<p><strong>Downloading the PXE Boot Image</strong></p>
+<p>The WIM image is then retrieved via TFTP:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>tftp<span class="w"> </span>-i<span class="w"> </span>&lt;THMMDT_IP&gt;<span class="w"> </span>GET<span class="w"> </span><span class="s2">"&lt;WIM_IMAGE_PATH&gt;"</span><span class="w"> </span>pxeboot.wim
+</code></pre></div>
+<p>This file is significantly larger as it contains a full Windows deployment environment.</p>
+<p><strong>Credential Extraction</strong></p>
+<p>After obtaining the PXE boot image, it can be analyzed for sensitive deployment data such as credentials stored in configuration files (e.g., <code>bootstrap.ini</code>).</p>
+<p>Using PowerPXE, credentials can be extracted automatically:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">Get-FindCredentials</span> <span class="n">-WimFile</span> <span class="n">pxeboot</span><span class="p">.</span><span class="n">wim</span>
+</code></pre></div>
+<p>Typical output includes:</p>
+<ul>
+<li>Deployment share path</li>
+<li>Domain information</li>
+<li>Service account username</li>
+<li>Plaintext or recoverable password</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-17.png" data-desc-position="bottom"><img alt="ad-17.png" src="ad-17.png"></a></p>
+<p><strong>Security Impact</strong></p>
+<p>Exploitation of PXE boot infrastructure can lead to serious compromise in enterprise environments, including:</p>
+<ul>
+<li>Exposure of domain service account credentials</li>
+<li>Unauthorized OS deployment manipulation</li>
+<li>Potential domain-level access depending on account privileges</li>
+</ul>
+<p>Properly securing MDT and PXE environments is critical to preventing credential leakage during automated deployments.</p>
+<h4 id="questions_3"><strong>Questions:</strong></h4>
+<p>What Microsoft tool is used to create and host PXE Boot images in organisations?</p>
+<ul>
+<li>Microsoft Deployment Toolkit</li>
+</ul>
+<p>What network protocol is used for recovery of files from the MDT server?</p>
+<ul>
+<li>TFTP</li>
+</ul>
+<p>What is the username associated with the account that was stored in the PXE Boot image?</p>
+<ul>
+<li>svcMDT</li>
+</ul>
+<p>What is the password associated with the account that was stored in the PXE Boot image?</p>
+<ul>
+<li>PXEBootSecure1@</li>
+</ul>
+<hr>
+<h3 id="task-7-configuration-file-enumeration"><strong>Task 7 — Configuration File Enumeration</strong></h3>
+<p>Depending on the host that was breached, various configuration files may be of value for enumeration:</p>
+<ul>
+<li>Web application config files</li>
+<li>Service configuration files</li>
+<li>Registry keys</li>
+<li>Centrally deployed applications</li>
+</ul>
+<p>Several enumeration scripts, such as&nbsp;<a href="https://github.com/GhostPack/Seatbelt">Seatbelt</a>, can be used to automate this process.</p>
+<p>This task focused on extracting credentials from configuration databases.</p>
+<p><strong>Locating the McAfee Agent Database</strong></p>
+<p>The target database was located in:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>C:\ProgramData\McAfee\Agent\DB
+</code></pre></div>
+<p><strong>Copying the Database via SCP</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>scp<span class="w"> </span>thm@THMJMP1.za.tryhackme.com:C:/ProgramData/McAfee/Agent/DB/ma.db<span class="w"> </span>ma.db
+</code></pre></div>
+<p>Password:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-19.png" data-desc-position="bottom"><img alt="ad-19.png" src="ad-19.png"></a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Password1@
+</code></pre></div>
+<p><strong>Viewing the Database</strong></p>
+<p>The SQLite database was opened using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sqlitebrowser<span class="w"> </span>ma.db
+</code></pre></div>
+<p>The <code>Agent_Repositories</code> table contained encrypted credentials.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-18.png" data-desc-position="bottom"><img alt="ad-18.png" src="ad-18.png"></a></p>
+<p><strong>Extracting and Decrypting Credentials</strong></p>
+<p>The McAfee SiteList password decryption tool was extracted:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>unzip<span class="w"> </span>mcafeesitelistpwddecryption.zip
+</code></pre></div>
+<p>Navigate into the extracted directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nb">cd</span><span class="w"> </span>mcafee-sitelist-pwd-decryption-master
+</code></pre></div>
+<p>Run the decryption script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>python2<span class="w"> </span>mcafee_sitelist_pwd_decrypt.py<span class="w"> </span>&lt;password_hash&gt;
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="ad-19%201.png" data-desc-position="bottom"><img alt="ad-19.png" src="ad-19%201.png"></a></p>
+<p>This successfully decrypted the stored credentials.</p>
+<h4 id="questions_4"><strong>Questions:</strong></h4>
+<p>What type of files often contain stored credentials on hosts?</p>
+<ul>
+<li>Configuration Files</li>
+</ul>
+<p>What is the name of the McAfee database that stores configuration including credentials used to connect to the orchestrator?</p>
+<ul>
+<li>ma.db</li>
+</ul>
+<p>What table in this database stores the credentials of the orchestrator?</p>
+<ul>
+<li>AGENT_REPOSITORIES</li>
+</ul>
+<p>What is the username of the AD account associated with the McAfee service?</p>
+<ul>
+<li>svcAV</li>
+</ul>
+<p>What is the password of the AD account associated with the McAfee service?</p>
+<ul>
+<li>MyStrongPassword!</li>
+</ul>
+<p><strong>Key Security Lessons</strong></p>
+<p>This lab demonstrated several common weaknesses found in Active Directory environments:</p>
+<h4 id="security-recommendations"><strong>Security Recommendations</strong></h4>
+<p><strong>User Awareness Training</strong></p>
+<p>Employees should be trained to:</p>
+<ul>
+<li>Identify phishing attempts</li>
+<li>Avoid credential disclosure</li>
+<li>Recognize suspicious emails and attachments</li>
+</ul>
+<hr>
+<p><strong>Restrict Exposure of AD Services</strong></p>
+<p>Services supporting NTLM and LDAP should not be publicly exposed. Access should instead be restricted through:</p>
+<ul>
+<li>VPNs</li>
+<li>Firewalls</li>
+<li>Multi-factor authentication</li>
+</ul>
+<hr>
+<p><strong>Implement Network Access Control (NAC)</strong></p>
+<p>NAC can help prevent unauthorized devices from joining the network.</p>
+<hr>
+<p><strong>Enforce SMB Signing</strong></p>
+<p>SMB signing mitigates SMB relay attacks by preventing tampering with SMB authentication traffic.</p>
+<hr>
+<p><strong>Apply Least Privilege Principles</strong></p>
+<p>Service accounts and users should only have the permissions required for their roles. This significantly limits the impact of credential compromise.</p>
+<hr>
+<p><strong>Conclusion</strong></p>
+<p>This room provided hands-on exposure to several realistic Active Directory attack techniques, including:</p>
+<ul>
+<li>LDAP credential interception</li>
+<li>NTLM relay attacks</li>
+<li>PXE deployment abuse</li>
+<li>Configuration file credential extraction</li>
+</ul>
+<p>The exercises reinforced the importance of secure authentication configurations, network segmentation, least privilege enforcement, and hardened deployment infrastructure in enterprise environments.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/c0rnyx" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://tryhackme.com/p/sam11" target="_blank" rel="noopener" title="tryhackme.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 0c4.6 0 9.2 1 13.4 2.9l188.4 79.9c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.6 239.2 16.1 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.9 1 251.4 0 256 0"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "navigation.tabs", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
