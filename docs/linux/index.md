@@ -1,3 +1,6 @@
+
+---
+
 # Linux Practice
 
 ---
@@ -10,13 +13,13 @@ The primary focus is on developing strong Linux fundamentals that directly suppo
 
 # OverTheWire — Bandit
 
-## Bandit Levels 0–10
+## Bandit Levels 1–10
 
 **Category:** Linux Basics • File Operations • Permissions
 
 Introduction to Linux fundamentals including navigation, file handling, permissions, and basic shell usage.
 
-➡️ **Open Module:** *(coming soon)*
+➡️ **Open Module:** [Levels 1-10](levels-1-10.md)
 
 ---
 
@@ -26,14 +29,14 @@ Introduction to Linux fundamentals including navigation, file handling, permissi
 
 Intermediate Linux challenges covering authentication, data encoding, shell scripting, and command-line problem solving.
 
-➡️ **Open Module:** *(coming soon)*
+➡️ **Open Module:** [Levels 11-20](levels-11-20.md)
 
 ---
 
-## Bandit Levels 21–34
+## Bandit Levels 21–33
 
 **Category:** Linux • Privilege Escalation • Automation
 
 Advanced Linux challenges focusing on scheduled tasks, privilege escalation, and system administration concepts.
 
-➡️ **Open Module:** *(coming soon)*
+➡️ **Open Module:** [Levels 21-33](levels-21-33.md)

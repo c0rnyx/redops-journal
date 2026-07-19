@@ -56,24 +56,38 @@ nav:
 
   - Mock Pentest Reports:
       - Index: thm/mock-pentests/index.md
-      - Lazy Admin: thm/mock-pentests/lazy-admin/index.md
+      - Agent Sudo: thm/mock-pentests/agent-sudo/index.md
+      - Anonymous: thm/mock-pentests/anonymous/index.md 
+      - Bounty Hacker: thm/mock-pentests/bounty-hacker/index.md
       - Eternal Blue: thm/mock-pentests/eternal-blue/index.md
       - Kenobi: thm/mock-pentests/kenobi/index.md
-      - ToolsRus: thm/mock-pentests/tools-rus/index.md
-      - Smol: thm/mock-pentests/smol/index.md
-      - Anonymous: thm/mock-pentests/anonymous/index.md
-      - Vulnversity: thm/mock-pentests/vulnversity/index.md
-      - Bounty Hacker: thm/mock-pentests/bounty-hacker/index.md
-      - Agent Sudo: thm/mock-pentests/agent-sudo/index.md
-      - Smag Grotto: thm/mock-pentests/smag-grotto/index.md
+      - Lazy Admin: thm/mock-pentests/lazy-admin/index.md
+      - Lazy Admin (CZ): thm/mock-pentests/lazy-admin-cz/index.md
       - Mr. Robot: thm/mock-pentests/mr-robot/index.md
+      - Mr. Robot (CZ): thm/mock-pentests/mr-robot-cz/index.md
       - Root Me: thm/mock-pentests/root-me/index.md
+      - Smag Grotto: thm/mock-pentests/smag-grotto/index.md
+      - Smol: thm/mock-pentests/smol/index.md
+      - Smol (CZ): thm/mock-pentests/smol-cz/index.md
+      - ToolsRus: thm/mock-pentests/tools-rus/index.md
+      - Vulnversity: thm/mock-pentests/vulnversity/index.md
+      
+      
 
   - Room Walkthroughs:
       - Index: thm/room-walkthroughs/index.md
-      - Take over: thm/room-walkthroughs/take-over/index.md
-      - Net Sec Challenge: thm/room-walkthroughs/netsec-challenge/index.md
+      - Breaching AD: thm/room-walkthroughs/breaching-ad/index.md
       - Easy Peasy: thm/room-walkthroughs/easy-peasy/index.md
+      - Linux Fundamentals Part 3: thm/room-walkthroughs/linux-fundamentals-part-3/index.md
+      - Linux Privilege Escalation: thm/room-walkthroughs/linux-privilege-escalation/index.md
+      - Linux Privilege Escalation Automation: thm/room-walkthroughs/linux-privilege-escalation-automation/index.md
+      - Net Sec Challenge: thm/room-walkthroughs/netsec-challenge/index.md
+      - Network Services: thm/room-walkthroughs/network-services/index.md
+      - Network Services 2: thm/room-walkthroughs/network-services-2/index.md
+      - Penetration Testing Frameworks: thm/room-walkthroughs/penetration-testing-frameworks/index.md
+      - Post Exploitation Basics: thm/room-walkthroughs/post-exploitation-basics/index.md
+      - Take over: thm/room-walkthroughs/take-over/index.md
+      - Windows Internals: thm/room-walkthroughs/windows-internals/index.md
 
   - Linux Practice:
       - Index: linux/index.md

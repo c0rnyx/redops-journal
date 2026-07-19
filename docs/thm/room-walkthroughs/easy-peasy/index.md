@@ -3,6 +3,8 @@
 
 # **Easy Peasy TryHackMe Room Walkthrough**
 
+---
+
 ### **Executive Summary**
 
 This room focused on a complete penetration testing workflow, beginning with service enumeration, continuing through web application discovery and information gathering, credential recovery through steganography and encoding analysis, gaining initial access via SSH, and finally escalating privileges to root through an insecure cron job configuration.
