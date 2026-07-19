@@ -1,8 +1,8 @@
 ```text
 ┌───────────────────────────────────────────────────────────────┐
-│  Personal Cybersecurity Knowledge Base                     │
-│  Red Team • Penetration Testing • Writeups                 │
-│  Status: ONLINE                                            │
+│  Personal Cybersecurity Knowledge Base                     
+│  Red Team • Penetration Testing • Writeups                 
+│  Status: ONLINE                                            
 └───────────────────────────────────────────────────────────────┘
 ```
  
